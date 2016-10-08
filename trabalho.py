@@ -2,41 +2,48 @@
 # Sabrina Faceroli Tridico - 9066452
 
 # O vetor tem a seguinte configuracao [missionarios, canibais, lado em que o barco esta]
-status = []
+status = ()
 
 #Grafo com caminhos - usando Lista de Adjacencias
-listaAdj = []
+listaAdj = {}
 
 # A seguir o numero de lugares no barco
-lugaresBarcos = input("Digite o numero de lugares do barco: ")
+lugaresBarco = input("Digite o numero de lugares do barco: ")
+aux = input("Digite o numero de missionarios/canibais: ")
 
-status.append(input("Digite o numero de missionarios/canibais: "))
-status.append(status[0])
-
-# O lado do barco eh 1 - direita e 0 - esquerda. Comeca na direita!
-status.append(1)
-
-print status
+# O lado do barco eh 1 - direita e 0 - esquerda. Comeca na direita e com o mesmo numero de canibais e missionarios!
+status = (aux, aux, 1)
 
 # Funcao para gerar o grafo de caminhos
-def caminhosPossiveis(stat):
+def caminhosPossiveis(stat, lugares):
+    row = caminhosPossiveisRecursao(stat, lugares)
+    listaAdj[stat] = row
+
+# DEUS QUE QUE TÁ ACONTECENDOOOO
+def caminhosPossiveisRecursao(stat, lugares):
     row = []
-    for a in range(1, stat[0]):
-        caminho = ((stat[0]-a), (stat[1]-a), stat[2])
+    if (lugares == 1):
+        caminho = (stat[0]-1, stat[1], stat[2])
         row.append(caminho)
+        print row
+        caminho = (stat[0], stat[1]-1, stat[2])
+        row.append(caminho)
+        print row
+    else:
+#    for a in range(lugares, 1):
+        caminho = ((stat[0]-lugares), stat[1], stat[2])
+        row.append(caminho)
+        print row
+        caminho = (stat[0], (stat[1]-lugares), stat[2])
+        row.append(caminho)
+        print row
+        caminho = caminhosPossiveis(stat, (lugares-1))
+        row.append(caminho)
+        print row
+    
+    return row
 
-    listaAdj.append([stat, row]) 
 
-caminhosPossiveis(status)
-
-# Vou trabalhar nisso mais tarde
-#status = [3, 2, 1]
-
-#caminhosPossiveis(status)
-#print listaAdj[0]
-#print listaAdj[1]        
-
-#tupla = listaAdj[0]
-#tuplat = tupla[0]
-#print tuplat[2]
+caminhosPossiveis(status, lugaresBarco)
+print listaAdj
      
