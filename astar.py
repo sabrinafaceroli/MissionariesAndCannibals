@@ -1,13 +1,20 @@
+# Capacidade do barco
 CAP_BARCO = 2
+# Lista de nós já gerados
 LISTA_NOS = []
 
 
-# def f():
-#    return 10
+# Função de distância
+def f():
+    return 10
 
-# def heuristica():
-#    return 1
 
+# Heuristica utilizada para resolver o problema
+def heuristica():
+    return 1
+
+
+# Verifica se o estado já está na lista de estados existentes
 def existe_estado(estado):
     for i in LISTA_NOS:
         if i == estado:
@@ -17,7 +24,6 @@ def existe_estado(estado):
 
 
 class No:
-
     def __init__(self):
         self.filhos = None
         self.distancia = None
@@ -28,22 +34,25 @@ class No:
 
 
 class Grafo:
-
     def __init__(self):
         self.raiz = None
 
+    # Método que gera o grafo
     def gera_filhos(self, b, lado, no):
         for x in range(b + 1):
             lado = (no.estado[2] + 2) % 2
             can = no.estado[0] + x * (-1) ** lado
             mis = no.estado[1] + (b - x) * (-1) ** lado
+
             t_estado = [can, mis, lado + (-1) ** lado]
 
+            # Verifica a validade do estado criado
             if mis >= can and mis > 0 and can > 0 and not existe_estado(t_estado):
                 no.filhos.append(t_estado)
                 LISTA_NOS.append(t_estado)
                 print("{} , {}".format(can, mis))
 
+        # Gera os filhos dos filhos
         for n in no.filhos:
             self.gera_filhos(CAP_BARCO, lado, n)
 
